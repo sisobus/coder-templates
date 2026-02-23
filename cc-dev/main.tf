@@ -103,7 +103,15 @@ resource "coder_agent" "main" {
       npm install -g happy-coder
     fi
 
-    echo "✅ 모든 도구(Claude, Zellij, happy-coder) 설치 완료!"
+    # 8. uv 설치 (Python package manager)
+    if ! command -v uv &> /dev/null; then
+      echo "Installing uv..."
+      curl -LsSf https://astral.sh/uv/install.sh | sh
+      # 현재 스크립트 세션에 uv 경로 추가
+      export PATH="$HOME/.local/bin:$PATH"
+    fi
+
+    echo "✅ 모든 도구(Claude, Zellij, happy-coder, uv) 설치 완료!"
   EOT
 
   # These environment variables allow you to make Git commits right away after creating a
